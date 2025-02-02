@@ -5,9 +5,9 @@ import networkx as nx
 app = Flask(__name__)
 
 # Load road network (change location to your desired city/area)
-place_name = "Manhattan, New York, USA"
-G = ox.graph_from_place(place_name, network_type="drive")
-G = ox.utils_graph.get_undirected(G)  # Convert to an undirected graph
+#place_name = "Manhattan, New York, USA"
+G = ox.graph_from_place(["Manhattan, New York, USA", "Jersey City, New Jersey, USA"], network_type="drive")
+G = ox.convert.to_undirected(G)  # Corrected method
 
 @app.route("/")
 def home():

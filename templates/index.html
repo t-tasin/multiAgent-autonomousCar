@@ -16,49 +16,6 @@
   <body>
     <h2>Click on the map to set Start & Destination</h2>
     <div id="map"></div>
-    <script>
-      var map = L.map("map").setView([40.75, -73.98], 13); // Center map on Manhattan
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: "© OpenStreetMap contributors",
-      }).addTo(map);
-
-      var startMarker, destMarker;
-      var clickCount = 0;
-
-      map.on("click", function (e) {
-        if (clickCount === 0) {
-          startMarker = L.marker(e.latlng, { title: "Start" }).addTo(map);
-          console.log("Start Point:", e.latlng);
-          clickCount++;
-        } else if (clickCount === 1) {
-          destMarker = L.marker(e.latlng, { title: "Destination" }).addTo(map);
-          console.log("Destination:", e.latlng);
-          clickCount++;
-
-          fetchRoute(startMarker.getLatLng(), destMarker.getLatLng());
-        }
-      });
-
-      function fetchRoute(start, destination) {
-        fetch("/calculate_route", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ start: start, destination: destination }),
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            if (data.error) {
-              alert("No route found!");
-              return;
-            }
-            drawRoute(data.route);
-          });
-      }
-
-      function drawRoute(route) {
-        var polyline = L.polyline(route, { color: "blue" }).addTo(map);
-        console.log("Route Drawn:", route);
-      }
-    </script>
+    <script src="{{ url_for('static', filename='animate.js') }}"></script>
   </body>
 </html>
